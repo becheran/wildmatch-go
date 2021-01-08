@@ -85,9 +85,13 @@ func NewWildMatch(pattern string) *WildMatch {
 
 // Indicates whether the matcher finds a match in the input string.
 func (w *WildMatch) IsMatch(input string) bool {
+	if len(w.pattern) == 0 {
+		return false
+	}
+
 	patternIdx := 0
 	for _, inputChar := range input {
-		if len(w.pattern) < patternIdx {
+		if patternIdx > len(w.pattern) {
 			return false
 		}
 
@@ -99,11 +103,11 @@ func (w *WildMatch) IsMatch(input string) bool {
 			if p.NextChar == nil {
 				return true
 			}
-		} else if p.InChar == &inputChar {
+		} else if p.InChar != nil && *p.InChar == inputChar {
 			continue
 		} else {
 			// Go back to last state with wildcard
-			for len(w.pattern) > patternIdx {
+			for {
 				pattern := w.pattern[patternIdx]
 				if pattern.HasWildcard {
 					break
