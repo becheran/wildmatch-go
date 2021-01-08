@@ -82,3 +82,10 @@ func TestIsMatch(t *testing.T) {
 		})
 	}
 }
+
+func TestString(t *testing.T) {
+	m := wildmatch.NewWildMatch("Foo/Bar")
+	if m.String() != "Foo/Bar" {
+		t.Fatalf("expected: %v, got: %v", "Foo/Bar", m.String())
+	}
+}

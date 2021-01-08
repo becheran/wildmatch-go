@@ -1,33 +1,32 @@
+// Match strings against a simple wildcard pattern.
+// Tests a wildcard pattern `p` against an input string `s`. Returns true only when `p` matches the entirety of `s`.
+//
+// See also the example described on [wikipedia](https://en.wikipedia.org/wiki/Matching_wildcards) for matching wildcards.
+//
+// No escape characters are defined.
+//
+// - `?` matches exactly one occurrence of any character.
+// - `*` matches arbitrary many (including zero) occurrences of any character.
+//
+// Examples matching wildcards:
+// ``` rust
+// # extern crate wildmatch; use wildmatch::WildMatch;
+// assert!(WildMatch::new("cat").is_match("cat"));
+// assert!(WildMatch::new("*cat*").is_match("dog_cat_dog"));
+// assert!(WildMatch::new("c?t").is_match("cat"));
+// assert!(WildMatch::new("c?t").is_match("cot"));
+// ```
+// Examples not matching wildcards:
+// ``` rust
+// # extern crate wildmatch; use wildmatch::WildMatch;
+// assert!(!WildMatch::new("dog").is_match("cat"));
+// assert!(!WildMatch::new("*d").is_match("cat"));
+// assert!(!WildMatch::new("????").is_match("cat"));
+// assert!(!WildMatch::new("?").is_match("cat"));
+// ```
 package wildmatch
 
 import "strings"
-
-//! Match strings against a simple wildcard pattern.
-//! Tests a wildcard pattern `p` against an input string `s`. Returns true only when `p` matches the entirety of `s`.
-//!
-//! See also the example described on [wikipedia](https://en.wikipedia.org/wiki/Matching_wildcards) for matching wildcards.
-//!
-//! No escape characters are defined.
-//!
-//! - `?` matches exactly one occurrence of any character.
-//! - `*` matches arbitrary many (including zero) occurrences of any character.
-//!
-//! Examples matching wildcards:
-//! ``` rust
-//! # extern crate wildmatch; use wildmatch::WildMatch;
-//! assert!(WildMatch::new("cat").is_match("cat"));
-//! assert!(WildMatch::new("*cat*").is_match("dog_cat_dog"));
-//! assert!(WildMatch::new("c?t").is_match("cat"));
-//! assert!(WildMatch::new("c?t").is_match("cot"));
-//! ```
-//! Examples not matching wildcards:
-//! ``` rust
-//! # extern crate wildmatch; use wildmatch::WildMatch;
-//! assert!(!WildMatch::new("dog").is_match("cat"));
-//! assert!(!WildMatch::new("*d").is_match("cat"));
-//! assert!(!WildMatch::new("????").is_match("cat"));
-//! assert!(!WildMatch::new("?").is_match("cat"));
-//! ```
 
 /// Wildcard matcher used to match strings.
 type WildMatch struct {
@@ -42,6 +41,9 @@ type State struct {
 func (w *WildMatch) String() string {
 	var sb strings.Builder
 	for _, p := range w.pattern {
+		if p.NextChar == nil {
+			break
+		}
 		sb.WriteString(string(*p.NextChar))
 	}
 	return sb.String()
