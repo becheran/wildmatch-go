@@ -36,7 +36,6 @@ type WildMatch struct {
 
 type State struct {
 	NextChar    *rune
-	InChar      *rune
 	HasWildcard bool
 }
 
@@ -52,7 +51,6 @@ func (w *WildMatch) String() string {
 func NewWildMatch(pattern string) *WildMatch {
 	simplified := make([]State, 0)
 	prevWasStar := false
-	var prev *rune
 	for _, currentChar := range pattern {
 		copyCurrentChar := currentChar
 		if currentChar == '*' {
@@ -60,19 +58,16 @@ func NewWildMatch(pattern string) *WildMatch {
 		} else {
 			s := State{
 				NextChar:    &copyCurrentChar,
-				InChar:      prev,
 				HasWildcard: prevWasStar,
 			}
 			simplified = append(simplified, s)
 			prevWasStar = false
 		}
-		prev = &copyCurrentChar
 	}
 
 	if len(pattern) > 0 {
 		final := State{
 			NextChar:    nil,
-			InChar:      prev,
 			HasWildcard: prevWasStar,
 		}
 		simplified = append(simplified, final)
@@ -103,13 +98,14 @@ func (w *WildMatch) IsMatch(input string) bool {
 			if p.NextChar == nil {
 				return true
 			}
-		} else if p.InChar != nil && *p.InChar == inputChar {
-			continue
 		} else {
 			// Go back to last state with wildcard
 			for {
 				pattern := w.pattern[patternIdx]
 				if pattern.HasWildcard {
+					if pattern.NextChar != nil && (*pattern.NextChar == '?' || *pattern.NextChar == inputChar) {
+						patternIdx += 1
+					}
 					break
 				}
 				if patternIdx == 0 {
