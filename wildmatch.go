@@ -9,20 +9,20 @@
 // - `*` matches arbitrary many (including zero) occurrences of any character.
 //
 // Examples matching wildcards:
-// ``` rust
-// # extern crate wildmatch; use wildmatch::WildMatch;
-// assert!(WildMatch::new("cat").is_match("cat"));
-// assert!(WildMatch::new("*cat*").is_match("dog_cat_dog"));
-// assert!(WildMatch::new("c?t").is_match("cat"));
-// assert!(WildMatch::new("c?t").is_match("cot"));
+// ``` go
+// import "github.com/becheran/wildmatch-go"
+// wildmatch.NewWildMatch("cat").IsMatch("cat")
+// wildmatch.NewWildMatch("*cat*").IsMatch("dog_cat_dog")
+// wildmatch.NewWildMatch("c?t").IsMatch("cat")
+// wildmatch.NewWildMatch("c?t").IsMatch("cot")
 // ```
 // Examples not matching wildcards:
-// ``` rust
-// # extern crate wildmatch; use wildmatch::WildMatch;
-// assert!(!WildMatch::new("dog").is_match("cat"));
-// assert!(!WildMatch::new("*d").is_match("cat"));
-// assert!(!WildMatch::new("????").is_match("cat"));
-// assert!(!WildMatch::new("?").is_match("cat"));
+// ``` go
+// import "github.com/becheran/wildmatch-go"
+// wildmatch.NewWildMatch("dog").IsMatch("cat")
+// wildmatch.NewWildMatch("*d").IsMatch("cat")
+// wildmatch.NewWildMatch("????").IsMatch("cat")
+// wildmatch.NewWildMatch("?").IsMatch("cat")
 // ```
 package wildmatch
 
