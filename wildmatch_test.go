@@ -44,6 +44,7 @@ var pattern = []testCase{
 	{pattern: "*32", target: "332", result: true},
 	{pattern: "*32", target: "3332", result: true},
 	{pattern: "33*", target: "333", result: true},
+	{pattern: " ", target: " ", result: true},
 
 	// No Match
 	{pattern: "*d*", target: "cat", result: false},
@@ -66,6 +67,8 @@ var pattern = []testCase{
 	{pattern: "", target: "wildcats", result: false},
 	{pattern: " ", target: "wildcats", result: false},
 	{pattern: "???", target: "wildcats", result: false},
+	{pattern: " ", target: "\n", result: false},
+	{pattern: " ", target: "\t", result: false},
 }
 
 func TestIsMatch(t *testing.T) {
