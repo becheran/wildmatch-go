@@ -4,7 +4,6 @@
 [![GoDev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/becheran/wildmatch-go)
 [![Sourcegraph](https://sourcegraph.com/github.com/becheran/wildmatch-go/-/badge.svg)](https://sourcegraph.com/github.com/becheran/wildmatch-go?badge)
 [![Go Report Card](https://goreportcard.com/badge/becheran/wildmatch-go)](https://goreportcard.com/report/becheran/wildmatch-go)
-![pipeline](https://github.com/actions/hello-world/workflows/Greet%20Everyone/badge.svg)
 ![GitHub Workflow Status](https://github.com/becheran/wildmatch-go/workflows/CI/badge.svg)
 
 *golang* library of the original *rust* [wildmatch library](https://github.com/becheran/wildmatch).
