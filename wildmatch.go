@@ -1,4 +1,4 @@
-// Match strings against a simple wildcard pattern.
+// Package wildmatch used to match strings against a simple wildcard pattern.
 // Tests a wildcard pattern `p` against an input string `s`. Returns true only when `p` matches the entirety of `s`.
 //
 // See also the example described on [wikipedia](https://en.wikipedia.org/wiki/Matching_wildcards) for matching wildcards.
@@ -28,12 +28,12 @@ package wildmatch
 
 import "strings"
 
-/// Wildcard matcher used to match strings.
+/// WildMatch is a wildcard matcher used to match strings.
 type WildMatch struct {
-	pattern []State
+	pattern []state
 }
 
-type State struct {
+type state struct {
 	NextChar    *rune
 	HasWildcard bool
 }
@@ -49,16 +49,16 @@ func (w *WildMatch) String() string {
 	return sb.String()
 }
 
-// Constructor with pattern which can be used for matching.
+// NewWildMatch creates new pattern matcher.
 func NewWildMatch(pattern string) *WildMatch {
-	simplified := make([]State, 0)
+	simplified := make([]state, 0)
 	prevWasStar := false
 	for _, currentChar := range pattern {
 		copyCurrentChar := currentChar
 		if currentChar == '*' {
 			prevWasStar = true
 		} else {
-			s := State{
+			s := state{
 				NextChar:    &copyCurrentChar,
 				HasWildcard: prevWasStar,
 			}
@@ -68,7 +68,7 @@ func NewWildMatch(pattern string) *WildMatch {
 	}
 
 	if len(pattern) > 0 {
-		final := State{
+		final := state{
 			NextChar:    nil,
 			HasWildcard: prevWasStar,
 		}
@@ -80,7 +80,7 @@ func NewWildMatch(pattern string) *WildMatch {
 	}
 }
 
-// Indicates whether the matcher finds a match in the input string.
+// IsMatch indicates whether the matcher finds a match in the input string.
 func (w *WildMatch) IsMatch(input string) bool {
 	if len(w.pattern) == 0 {
 		return false
