@@ -9,6 +9,10 @@
 
 *golang* library of the original *rust* [wildmatch library](https://github.com/becheran/wildmatch).
 
+``` sh
+go get github.com/becheran/wildmatch-go
+```
+
 Match strings against a simple wildcard pattern. Tests a wildcard pattern `p` against an input string `s`. Returns true only when `p` matches the entirety of `s`.
 
 See also the example described on [wikipedia](https://en.wikipedia.org/wiki/Matching_wildcards) for matching wildcards.
