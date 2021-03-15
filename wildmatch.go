@@ -11,18 +11,18 @@
 // Examples matching wildcards:
 // ``` go
 // import "github.com/becheran/wildmatch-go"
-// wildmatch.NewWildMatch("cat").IsMatch("cat")
-// wildmatch.NewWildMatch("*cat*").IsMatch("dog_cat_dog")
-// wildmatch.NewWildMatch("c?t").IsMatch("cat")
-// wildmatch.NewWildMatch("c?t").IsMatch("cot")
+// wildmatch.NewWildMatch("cat").Matches("cat")
+// wildmatch.NewWildMatch("*cat*").Matches("dog_cat_dog")
+// wildmatch.NewWildMatch("c?t").Matches("cat")
+// wildmatch.NewWildMatch("c?t").Matches("cot")
 // ```
 // Examples not matching wildcards:
 // ``` go
 // import "github.com/becheran/wildmatch-go"
-// wildmatch.NewWildMatch("dog").IsMatch("cat")
-// wildmatch.NewWildMatch("*d").IsMatch("cat")
-// wildmatch.NewWildMatch("????").IsMatch("cat")
-// wildmatch.NewWildMatch("?").IsMatch("cat")
+// wildmatch.NewWildMatch("dog").Matches("cat")
+// wildmatch.NewWildMatch("*d").Matches("cat")
+// wildmatch.NewWildMatch("????").Matches("cat")
+// wildmatch.NewWildMatch("?").Matches("cat")
 // ```
 package wildmatch
 
@@ -80,8 +80,8 @@ func NewWildMatch(pattern string) *WildMatch {
 	}
 }
 
-// IsMatch indicates whether the matcher finds a match in the input string.
-func (w *WildMatch) IsMatch(input string) bool {
+// Matches indicates whether the matcher finds a match in the input string.
+func (w *WildMatch) Matches(input string) bool {
 	if len(w.pattern) == 0 {
 		return false
 	}

@@ -75,7 +75,7 @@ func TestIsMatch(t *testing.T) {
 	for _, p := range pattern {
 		t.Run(p.pattern+"_"+p.target, func(t *testing.T) {
 			m := wildmatch.NewWildMatch(p.pattern)
-			result := m.IsMatch(p.target)
+			result := m.Matches(p.target)
 			if result != p.result {
 				t.Fatalf("expected: %v, got: %v", p.result, result)
 			}
