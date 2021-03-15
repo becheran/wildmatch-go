@@ -89,3 +89,9 @@ func TestString(t *testing.T) {
 		t.Fatalf("expected: %v, got: %v", "Foo/Bar", m.String())
 	}
 }
+
+func Benchmark_PatternCompile(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		wildmatch.NewWildMatch("Lorem?ipsum*dolore*ea* ?????ata*.")
+	}
+}

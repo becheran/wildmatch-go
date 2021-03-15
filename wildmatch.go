@@ -51,7 +51,7 @@ func (w *WildMatch) String() string {
 
 // NewWildMatch creates new pattern matcher.
 func NewWildMatch(pattern string) *WildMatch {
-	simplified := make([]state, 0)
+	simplified := make([]state, 0, len(pattern))
 	prevWasStar := false
 	for _, currentChar := range pattern {
 		copyCurrentChar := currentChar
