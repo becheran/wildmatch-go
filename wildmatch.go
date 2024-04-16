@@ -41,6 +41,9 @@ type state struct {
 func (w *WildMatch) String() string {
 	var sb strings.Builder
 	for _, p := range w.pattern {
+		if p.HasWildcard {
+			sb.WriteString("*")
+		}
 		if p.NextChar == nil {
 			break
 		}
