@@ -26,58 +26,30 @@
 // ```
 package wildmatch
 
-import "strings"
-
 /// WildMatch is a wildcard matcher used to match strings.
 type WildMatch struct {
-	pattern []state
-}
-
-type state struct {
-	NextChar    *rune
-	HasWildcard bool
+	pattern string
 }
 
 func (w *WildMatch) String() string {
-	var sb strings.Builder
-	for _, p := range w.pattern {
-		if p.HasWildcard {
-			sb.WriteString("*")
-		}
-		if p.NextChar == nil {
-			break
-		}
-		sb.WriteString(string(*p.NextChar))
-	}
-	return sb.String()
+	return w.pattern
 }
 
 // NewWildMatch creates new pattern matcher.
 func NewWildMatch(pattern string) *WildMatch {
-	simplified := make([]state, 0, len(pattern))
+	simplified := ""
 	prevWasStar := false
 	for _, currentChar := range pattern {
-		copyCurrentChar := currentChar
 		if currentChar == '*' {
+			if !prevWasStar {
+				simplified += "*"
+			}
 			prevWasStar = true
 		} else {
-			s := state{
-				NextChar:    &copyCurrentChar,
-				HasWildcard: prevWasStar,
-			}
-			simplified = append(simplified, s)
 			prevWasStar = false
+			simplified += string(currentChar)
 		}
 	}
-
-	if len(pattern) > 0 {
-		final := state{
-			NextChar:    nil,
-			HasWildcard: prevWasStar,
-		}
-		simplified = append(simplified, final)
-	}
-
 	return &WildMatch{
 		pattern: simplified,
 	}
@@ -85,40 +57,34 @@ func NewWildMatch(pattern string) *WildMatch {
 
 // Matches indicates whether the matcher finds a match in the input string.
 func (w *WildMatch) Matches(input string) bool {
-	if len(w.pattern) == 0 {
-		return false
+	if w.pattern == "" {
+		return input == ""
 	}
 
-	patternIdx := 0
-	for _, inputChar := range input {
-		if patternIdx > len(w.pattern) {
+	idxInput := 0
+	idxPattern := 0
+	idxStart := -1
+	idxMatch := 0
+	for idxInput < len(input) {
+		if idxPattern < len(w.pattern) && (w.pattern[idxPattern] == '?' || w.pattern[idxPattern] == input[idxInput]) {
+			idxInput++
+			idxPattern++
+		} else if idxPattern < len(w.pattern) && w.pattern[idxPattern] == '*' {
+			idxStart = idxPattern
+			idxMatch = idxInput
+			idxPattern++
+		} else if idxStart != -1 {
+			idxPattern = idxStart + 1
+			idxMatch++
+			idxInput = idxMatch
+		} else {
 			return false
 		}
-
-		p := w.pattern[patternIdx]
-
-		if p.NextChar != nil && (*p.NextChar == '?' || *p.NextChar == inputChar) {
-			patternIdx += 1
-		} else if p.HasWildcard {
-			if p.NextChar == nil {
-				return true
-			}
-		} else {
-			// Go back to last state with wildcard
-			for {
-				pattern := w.pattern[patternIdx]
-				if pattern.HasWildcard {
-					if pattern.NextChar != nil && (*pattern.NextChar == '?' || *pattern.NextChar == inputChar) {
-						patternIdx += 1
-					}
-					break
-				}
-				if patternIdx == 0 {
-					return false
-				}
-				patternIdx -= 1
-			}
-		}
 	}
-	return w.pattern[patternIdx].NextChar == nil
+
+	for idxPattern < len(w.pattern) && w.pattern[idxPattern] == '*' {
+		idxPattern++
+	}
+
+	return idxPattern == len(w.pattern)
 }
