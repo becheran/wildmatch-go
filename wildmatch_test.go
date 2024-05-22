@@ -12,7 +12,7 @@ func TestIsMatchRandom(t *testing.T) {
 	const permutations = 1_000
 
 	randomString := func(length int) string {
-		const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ*?"
 		b := make([]byte, length)
 		for i := range b {
 			b[i] = letterBytes[rand.Intn(len(letterBytes))]
@@ -58,6 +58,7 @@ func TestIsMatch(t *testing.T) {
 		result  bool
 	}{
 		// Match
+		{pattern: "a*b", target: "a*xb", result: true},
 		{pattern: "**", target: "cat", result: true},
 		{pattern: "*", target: "cat", result: true},
 		{pattern: "*?*", target: "cat", result: true},

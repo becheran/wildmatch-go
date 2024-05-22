@@ -66,12 +66,12 @@ func (w *WildMatch) Matches(input string) bool {
 	idxStart := -1
 	idxMatch := 0
 	for idxInput < len(input) {
-		if idxPattern < len(w.pattern) && (w.pattern[idxPattern] == '?' || w.pattern[idxPattern] == input[idxInput]) {
-			idxInput++
-			idxPattern++
-		} else if idxPattern < len(w.pattern) && w.pattern[idxPattern] == '*' {
+		if idxPattern < len(w.pattern) && w.pattern[idxPattern] == '*' {
 			idxStart = idxPattern
 			idxMatch = idxInput
+			idxPattern++
+		} else if idxPattern < len(w.pattern) && (w.pattern[idxPattern] == '?' || w.pattern[idxPattern] == input[idxInput]) {
+			idxInput++
 			idxPattern++
 		} else if idxStart != -1 {
 			idxPattern = idxStart + 1
