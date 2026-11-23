@@ -9,7 +9,7 @@
 *golang* library of the original *rust* [wildmatch library](https://github.com/becheran/wildmatch).
 
 ``` sh
-go get github.com/becheran/wildmatch-go
+go get github.com/becheran/wildmatch-go/v2
 ```
 
 Match strings against a simple wildcard pattern. Tests a wildcard pattern `p` against an input string `s`. Returns true only when `p` matches the entirety of `s`.
