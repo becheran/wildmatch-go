@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/becheran/wildmatch-go"
+	"github.com/becheran/wildmatch-go/v2"
 )
 
 func TestIsMatchRandom(t *testing.T) {
