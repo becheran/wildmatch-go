@@ -18,7 +18,7 @@
 // ```
 // Examples not matching wildcards:
 // ``` go
-// import "github.com/becheran/wildmatch-go"
+// import "github.com/becheran/wildmatch-go/v2"
 // wildmatch.NewWildMatch("dog").Matches("cat")
 // wildmatch.NewWildMatch("*d").Matches("cat")
 // wildmatch.NewWildMatch("????").Matches("cat")
